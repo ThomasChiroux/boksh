@@ -1,7 +1,7 @@
 #! /usr/bin/python
 # -*- coding: utf-8 -*-
 #
-# Copyright 2011 Thomas Chiroux
+# Copyright 2013 Thomas Chiroux
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as
@@ -33,7 +33,7 @@ import sys
 from build_scripts.version import get_git_version
 
 if not hasattr(sys, 'version_info') or sys.version_info < (2, 7, 0, 'final'):
-    raise SystemExit("dipplanner requires Python 2.7 or later.")
+    raise SystemExit("boksh requires Python 2.7 or later.")
 
 with open("README.rst") as f:
     README = f.read()
@@ -104,18 +104,18 @@ setup(name='boksh',
           "Programming Language :: Python",
           "Programming Language :: Python :: 2.7"],
       keywords='ssh bookmark',
-      author='Thomas Chiroux & contributors',
+      author='Thomas Chiroux',
       author_email='',
-      url='https://',
+      url='https://github.com/ThomasChiroux/boksh',
       license='GPLv3',
       entry_points={
-          'console_scripts': ['boksh = boksh.boksh:main', ],
+          'console_scripts': ['boksh = boksh.commands:main', ],
       },
-      packages=find_packages('src'),
-      package_dir={'': 'src'}, include_package_data=True,
-      package_data={'boksh': ['RELEASE-VERSION', ]},
+      packages=find_packages(),
+      package_data={'': ['RELEASE-VERSION', '*.rst', '*.json', ],
+                   },
+      include_package_data=True,
       zip_safe=False,
-      provides=('boksh', ),
       install_requires=install_requires,
       #test_suite = 'test.run_all_tests.run_all_tests',
       tests_require=['nose', 'coverage', 'unittest2'],

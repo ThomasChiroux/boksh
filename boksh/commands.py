@@ -17,12 +17,33 @@
 # along with this program.
 # If not, see <http://www.gnu.org/licenses/lgpl-3.0.html>
 #
-import pkg_resources
+import argparse
+import json
 
-__version__ = "unknown"
+import urwid
 
-try:
-    __version__ = pkg_resources.resource_string("boksh",
-                                                "RELEASE-VERSION").strip()
-except IOError:
-    __version__ = "0.0.0"
+import boksh
+from boksh.bookmark_menu import SshBookMark
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--version', action='version',
+                        version="%(prog)s " + boksh.__version__)
+    parser.add_argument('-f', '--file',
+                        default="~/.bokshrc.json",
+                        help="rc file, json format (default: ~/.bokshrc.json")
+
+    args = parser.parse_args()
+
+    file_d = open(args.file)
+    bokshrc = json.load(file_d)
+    file_d.close()
+    top = SshBookMark(bokshrc)
+    urwd = urwid.MainLoop(top, palette=[('reversed', 'standout', '')])
+    top.urwd = urwd
+    urwd.run()
+
+
+if __name__ == "__main__":
+    main()

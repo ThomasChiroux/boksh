@@ -1,13 +1,27 @@
-#!/usr/bin/env python
+#! /usr/bin/python
 # -*- coding: utf-8 -*-
 #
+# Copyright 2013 Thomas Chiroux
 #
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
 #
-import argparse
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.
+# If not, see <http://www.gnu.org/licenses/lgpl-3.0.html>
+#
 import subprocess
-import json
 
 import urwid
+
+import boksh
 
 
 class SshBookMark(urwid.WidgetPlaceholder):
@@ -42,7 +56,8 @@ class SshBookMark(urwid.WidgetPlaceholder):
     def urwd_menu(self, lvl1_choice=None):
         choices = []
         if lvl1_choice is None:
-            body = [urwid.Text("Boksh"), urwid.Divider()]
+            body = [urwid.Text("Boksh %s" % boksh.__version__),
+                    urwid.Divider()]
             for choice in self.menu:
                 choices.append(self.menu_button(choice,
                                                 self.select_menu))
@@ -116,26 +131,3 @@ class SshBookMark(urwid.WidgetPlaceholder):
             if echo:
                 subprocess.call("echo '" + cmd + "'", shell=True)
             subprocess.call(cmd, shell=True)
-
-
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--version', action='version',
-                        version="%(prog)s " + 'v0.1alpha')  # todo versionning
-    parser.add_argument('-f', '--file',
-                        default="~/.bokshrc.json",
-                        help="rc file, json format (default: ~/.bokshrc.json")
-
-    args = parser.parse_args()
-
-    file_d = open(args.file)
-    bokshrc = json.load(file_d)
-    file_d.close()
-    top = SshBookMark(bokshrc)
-    urwd = urwid.MainLoop(top, palette=[('reversed', 'standout', '')])
-    top.urwd = urwd
-    urwd.run()
-
-
-if __name__ == "__main__":
-    main()
