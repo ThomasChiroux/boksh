@@ -58,12 +58,12 @@ class SshBookMark(urwid.WidgetPlaceholder):
         if lvl1_choice is None:
             body = [urwid.Text("Boksh %s" % boksh.__version__),
                     urwid.Divider()]
-            for choice in self.menu:
+            for choice in sorted(self.menu):
                 choices.append(self.menu_button(choice,
                                                 self.select_menu))
         else:
             body = [urwid.Text(lvl1_choice), urwid.Divider()]
-            for choice in self.menu[lvl1_choice]:
+            for choice in sorted(self.menu[lvl1_choice]):
                 choices.append(self.menu_button(choice,
                                                 self.select_item))
         body.extend(choices)
