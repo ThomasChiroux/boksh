@@ -19,6 +19,7 @@
 #
 import argparse
 import json
+from os.path import expanduser
 
 import urwid
 
@@ -37,7 +38,7 @@ def main():
     args = parser.parse_args()
 
     file_d = open(args.file)
-    bokshrc = json.load(file_d)
+    bokshrc = json.load(expanduser(file_d))
     file_d.close()
     top = SshBookMark(bokshrc)
     urwd = urwid.MainLoop(top, palette=[('reversed', 'standout', '')])
