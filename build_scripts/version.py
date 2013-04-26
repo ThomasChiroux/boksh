@@ -42,7 +42,7 @@ def call_git_describe(abbrev=4):
                   stdout=PIPE, stderr=PIPE)
         p.stderr.close()
         line = p.stdout.readlines()[0]
-        return line.strip()
+        return line.strip().decode('utf-8')
 
     except:
         return None
@@ -50,7 +50,7 @@ def call_git_describe(abbrev=4):
 
 def read_release_version():
     try:
-        f = open("RELEASE-VERSION", "r")
+        f = open("RELEASE-VERSION", "r", encoding='utf-8')
 
         try:
             version = f.readlines()[0]
@@ -64,7 +64,7 @@ def read_release_version():
 
 
 def write_release_version(version):
-    f = open("RELEASE-VERSION", "w")
+    f = open("RELEASE-VERSION", "w", encoding='utf-8')
     f.write("%s\n" % version)
     f.close()
 
@@ -101,4 +101,4 @@ def get_git_version(abbrev=4):
 
 
 if __name__ == "__main__":
-    print get_git_version()
+    print(get_git_version())

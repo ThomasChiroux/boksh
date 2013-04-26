@@ -35,10 +35,10 @@ from build_scripts.version import get_git_version
 if not hasattr(sys, 'version_info') or sys.version_info < (2, 7, 0, 'final'):
     raise SystemExit("boksh requires Python 2.7 or later.")
 
-with open("README.rst") as f:
+with open("README.rst", encoding='utf-8') as f:
     README = f.read()
 
-with open("NEWS.rst") as f:
+with open("NEWS.rst", encoding='utf-8') as f:
     NEWS = f.read()
 
 
@@ -46,7 +46,7 @@ VERSION = get_git_version()
 if VERSION is None:
     try:
         file_name = "boksh/RELEASE-VERSION"
-        version_file = open(file_name, "r")
+        version_file = open(file_name, "r", encoding='utf-8')
         try:
             VERSION = version_file.readlines()[0]
             VERSION = VERSION.strip()
@@ -72,7 +72,8 @@ class my_build_py(build_py):
 
             try:
                 for dir in target_dirs:
-                    fobj = open(os.path.join(dir, 'RELEASE-VERSION'), 'w')
+                    fobj = open(os.path.join(dir, 'RELEASE-VERSION'), 'w',
+                                encoding='utf-8')
                     fobj.write(VERSION)
                     fobj.close()
             except:
@@ -86,12 +87,8 @@ install_requires = [
     # List your project dependencies here.
     # For more details, see:
     # http://packages.python.org/distribute/setuptools.html#declaring-dependencies
-    'urwid']
-
-try:
-    import argparse  # NOQA
-except ImportError:
-    install_requires.append('argparse')
+    'urwid',
+    'six']
 
 setup(name='boksh',
       version=VERSION,
@@ -102,7 +99,9 @@ setup(name='boksh',
           # Get strings from
           # http://pypi.python.org/pypi?%3Aaction=list_classifiers
           "Programming Language :: Python",
-          "Programming Language :: Python :: 2.7"],
+          "Programming Language :: Python :: 2.7",
+          "Programming Language :: Python :: 3",
+          "Programming Language :: Python :: 3.3"],
       keywords='ssh bookmark',
       author='Thomas Chiroux',
       author_email='',
@@ -112,8 +111,7 @@ setup(name='boksh',
           'console_scripts': ['boksh = boksh.commands:main', ],
       },
       packages=find_packages(),
-      package_data={'': ['RELEASE-VERSION', '*.rst', '*.json', ],
-                   },
+      package_data={'': ['RELEASE-VERSION', '*.rst', '*.json', ]},
       include_package_data=True,
       zip_safe=False,
       install_requires=install_requires,
@@ -122,5 +120,4 @@ setup(name='boksh',
       test_suite='nose.collector',
       extras_require={
           'doc':  ["sphinx", ],
-          'devel_tools':  ["ipython", "pylint", "pep8", ],
       },)

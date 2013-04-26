@@ -20,6 +20,7 @@
 import subprocess
 
 import urwid
+import six
 
 import boksh
 
@@ -27,7 +28,7 @@ import boksh
 class SshBookMark(urwid.WidgetPlaceholder):
     """
     """
-    max_box_levels = 4
+    max_box_levels = 2
 
     def __init__(self, bokshrc):
         """bokshrc is a json file in the form:
@@ -43,7 +44,7 @@ class SshBookMark(urwid.WidgetPlaceholder):
          'menu': {}
         }
         """
-        super(SshBookMark, self).__init__(urwid.SolidFill(u'/'))
+        super(SshBookMark, self).__init__(urwid.SolidFill(u'\N{DARK SHADE}'))
         self.urwd = None
         self.box_level = 0
         self.lvl1 = []
@@ -98,8 +99,8 @@ class SshBookMark(urwid.WidgetPlaceholder):
         self.original_widget = urwid.Overlay(
             urwid.LineBox(box),
             self.original_widget,
-            align='center', width=('relative', 80),
-            valign='middle', height=('relative', 80),
+            align='center', width=('relative', 90),
+            valign='middle', height=('relative', 90),
             min_width=24, min_height=8,
             left=self.box_level * 3,
             right=(self.max_box_levels - self.box_level - 1) * 3,
@@ -125,7 +126,7 @@ class SshBookMark(urwid.WidgetPlaceholder):
 
     def _runcmds(self, commands, echo=False):
         """ launch command """
-        if type(commands) == str or type(commands) == unicode:
+        if isinstance(commands, six.text_type):
             commands = [commands, ]
         for cmd in commands:
             if echo:
