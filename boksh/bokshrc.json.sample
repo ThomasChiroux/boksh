@@ -1,0 +1,24 @@
+{
+    "templates": {
+        "prod": {
+            "before": [
+                "dynamic-colors switch prod"
+            ],
+            "after": [
+                "dynamic-colors switch default"
+            ]
+        }
+    },
+    "menu": {
+        "boxestoto": {
+            "boxname": {
+                "command": "ssh root@10.96.5.2",
+                "template": "prod"
+            },
+            "box2": {
+                "command": "ssh root@10.96.6.2",
+                "template": "prod"
+            }
+        }
+    }
+}
