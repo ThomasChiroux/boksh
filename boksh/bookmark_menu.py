@@ -79,15 +79,19 @@ class SshBookMark(urwid.WidgetPlaceholder):
         command = self.menu[self.lvl1[-1]][button.label]['command']
         template_name = self.menu[self.lvl1[-1]][button.label]['template']
         try:
+            name = self.menu[self.lvl1[-1]][button.label]['name']
+        except KeyError:
+            name = command.split(' ')[-1]
+        try:
             template = self.templates[template_name]
         except KeyError:
             # todo change this with an error box
             print("Unable to find template: %s" % template_name)
         else:
             self.urwd.screen.stop()
-            self._runcmds(template['before'])
-            self._runcmds(command, echo=True)
-            self._runcmds(template['after'])
+            self._runcmds(template['before'], name=name)
+            self._runcmds(command, name=name, echo=True)
+            self._runcmds(template['after'], name=name)
             self.urwd.screen.start()
 
     def menu_button(self, caption, callback):
@@ -124,11 +128,12 @@ class SshBookMark(urwid.WidgetPlaceholder):
     def exit_program(self, button=None):
         raise urwid.ExitMainLoop()
 
-    def _runcmds(self, commands, echo=False):
+    def _runcmds(self, commands, name=None, echo=False):
         """ launch command """
         if isinstance(commands, six.text_type):
             commands = [commands, ]
         for cmd in commands:
+            cmd = cmd.format(name=name)
             if echo:
                 subprocess.call("echo '" + cmd + "'", shell=True)
             subprocess.call(cmd, shell=True)
