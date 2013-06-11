@@ -20,26 +20,33 @@
 import argparse
 import json
 from os.path import expanduser
+import glob
 
 import urwid
 
 import boksh
 from boksh.bookmark_menu import SshBookMark
+from boksh.tools import merge_dicts
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--version', action='version',
                         version="%(prog)s " + boksh.__version__)
-    parser.add_argument('-f', '--file',
-                        default="~/.bokshrc.json",
-                        help="rc file, json format (default: ~/.bokshrc.json")
+    parser.add_argument(
+        '-f', '--file',
+        default="~/.config/boksh/*.json",
+        help="rc file, json format (default: ~/.config/boksh/*.json")
 
     args = parser.parse_args()
 
-    file_d = open(expanduser(args.file))
-    bokshrc = json.load(file_d)
-    file_d.close()
+    files = glob.glob(expanduser(args.file))
+    bokshrc = {}
+    for file_name in files:
+        file_d = open(file_name)
+        bokshrc = merge_dicts(bokshrc, json.load(file_d))
+        file_d.close()
+
     top = SshBookMark(bokshrc)
     urwd = urwid.MainLoop(top, palette=[('reversed', 'standout', '')])
     top.urwd = urwd
