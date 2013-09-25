@@ -118,7 +118,8 @@ class SshBookMark(urwid.WidgetPlaceholder):
             self.box_level -= 1
             self.lvl1.pop()
             return
-        if (key == 'esc' and self.box_level == 1) or key in ['Q', 'q']:
+        if ((key == 'esc' and self.box_level == 1) or
+                key in ['Q', 'q', 'ctrl d']):
             self.exit_program()
             return
 

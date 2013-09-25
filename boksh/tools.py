@@ -25,8 +25,10 @@ except ImportError:
 
 def merge_dicts(*dicts):
     """
-    Return a new dictionary that is the result of merging the arguments together.
-    In case of conflicts, later arguments take precedence over earlier arguments.
+    Return a new dictionary that is the result of merging
+    the arguments together.
+    In case of conflicts, later arguments take precedence
+    over earlier arguments.
     """
     updated = {}
     # grab all keys
@@ -42,7 +44,7 @@ def merge_dicts(*dicts):
             # if we have any mapping types, call recursively to merge them
             updated[key] = merge_dicts(*maps)
         else:
-            # otherwise, just grab the last value we have, since later arguments
-            # take precedence over earlier arguments
+            # otherwise, just grab the last value we have, since later
+            # arguments take precedence over earlier arguments
             updated[key] = values[-1]
     return updated
