@@ -26,6 +26,7 @@ __authors__ = [
 
 from setuptools import setup, find_packages
 from setuptools.command.build_py import build_py
+from io import open
 import os
 import sys
 
