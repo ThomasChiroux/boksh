@@ -87,12 +87,13 @@ class SshBookMark(urwid.WidgetPlaceholder):
         except KeyError:
             # todo change this with an error box
             print("Unable to find template: %s" % template_name)
-        else:
-            self.urwd.screen.stop()
-            self._runcmds(template['before'], name=name)
-            self._runcmds(command, name=name, echo=True)
-            self._runcmds(template['after'], name=name)
-            self.urwd.screen.start()
+            template = {'before': [], 'after': []}
+
+        self.urwd.screen.stop()
+        self._runcmds(template['before'], name=name)
+        self._runcmds(command, name=name, echo=True)
+        self._runcmds(template['after'], name=name)
+        self.urwd.screen.start()
 
     def menu_button(self, caption, callback):
         button = urwid.Button(caption)
