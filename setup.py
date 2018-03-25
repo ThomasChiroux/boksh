@@ -88,7 +88,7 @@ install_requires = [
     # List your project dependencies here.
     # For more details, see:
     # http://packages.python.org/distribute/setuptools.html#declaring-dependencies
-    'urwid',
+    'urwid==1.3.1',
     'six']
 
 setup(name='boksh',
