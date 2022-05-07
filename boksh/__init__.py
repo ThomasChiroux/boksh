@@ -18,12 +18,4 @@
 # If not, see <http://www.gnu.org/licenses/lgpl-3.0.html>
 #
 import pkg_resources
-
-__version__ = "unknown"
-
-try:
-    __version__ = pkg_resources.resource_string(
-        "boksh",
-        "RELEASE-VERSION").decode('utf-8').strip()
-except IOError:
-    __version__ = "0.0.0"
+__version__ = pkg_resources.get_distribution('boksh').version
