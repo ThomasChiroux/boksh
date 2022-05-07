@@ -20,7 +20,6 @@
 import subprocess
 
 import urwid
-import six
 
 import boksh
 
@@ -132,7 +131,7 @@ class SshBookMark(urwid.WidgetPlaceholder):
 
     def _runcmds(self, commands, name=None, echo=False):
         """ launch command """
-        if isinstance(commands, six.text_type):
+        if isinstance(commands, str):
             commands = [commands, ]
         for cmd in commands:
             cmd = cmd.format(name=name)
